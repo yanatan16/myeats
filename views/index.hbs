@@ -1,0 +1,34 @@
+{{#extend "stylesheets"}}
+<link rel="stylesheet" href="/stylesheets/style.css"/>
+{{/extend}}
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="hero-unit">
+      <h2>Welcome to MyEats!</h2>
+    </div>
+
+    <p><a id="randomize" class="btn" href="#">Randomize!</a></p>
+    
+    <div id="eats">
+      {{#each eats}}
+        <div class="row-fluid">
+          <div class="span4">
+            <h2>{{name}}</h2>
+            <p>Neighborhood: {{neighborhood}}</p>      
+          </div><!--/span-->
+        </div><!--/row-->
+      {{/each}}
+    </div>
+
+  </div>
+  <div class="span12">
+    <p><label>Name</label><input type="text" id="new-name" /></p>
+    <p><label>Neighborhood</label><input type="text" id="new-neighborhood" /></p>
+    <p><a id='add-eat' class="btn" href="#">Add</a></p>
+  </div><!--/span-->
+</div><!--/row-->
+
+{{#extend "scripts"}}
+<script src="js/myeats.js"></script>
+{{/extend}}

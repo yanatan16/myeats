@@ -1,7 +1,12 @@
 module.exports = {
-  sessionSecret: 'YouHadBetterNotStoreYourSecretThisWay'
+  sessionSecret: 'its mine!'
   , google: {
-        clientId: '892524237598-ej68aubms87ub4sl15h8419deg9uerln.apps.googleusercontent.com'
-      , clientSecret: 'So6ljiz2aYGAxyV51NhjEVeq'
+        clientId: '207566538796.apps.googleusercontent.com'
+      , clientSecret: 'WIntL03RnSEKz1DcgEVjy1oR'
+      , emailAddress: '207566538796@developer.gserviceaccount.com' // Documentation
+      , redirectURI: 'https://localhost:3000/oauth2callback'  // Documentation
     }
+  , mongo: {
+    uri: 'mongodb://localhost/myeats'
+  }
 };
