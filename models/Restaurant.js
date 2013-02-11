@@ -1,57 +1,22 @@
 var mongoose = require('mongoose')
   , _ = require('underscore')
   , Schema = mongoose.Schema
-  , ObjectId = mongoose.SchemaTypes.ObjectId;
+  , ObjectId = mongoose.SchemaTypes.ObjectId
+  , hbs = require('hbs');
 
 
 var RestaurantSchema = new Schema({
-    id    	 : ObjectId
-  , numbers  : { 
-        all: { type: Number, unique: true }
-      , neighborhood: Number 
-    }
-  , name      : String
-  , neighborhood      : String
+    id    	       : ObjectId
+  , name           : { type: String, required: true }
+  , neighborhood   : { type: String, index: true, required: true }
+  , dollars        : { type: Number, required: true, min: 1, max: 3 }
 });
 
-RestaurantSchema.index({ neighborhood: 1, 'numbers.neighborhood': 1 }, { unique: true });
+RestaurantSchema.index({dollars: 1, neighborhood: 1})
 
-// Creation method handles num field
-RestaurantSchema.statics.new = function (restaurant, callback) {
-  var that = this;
-
-  this.count({}, function (err, all) {
-    if (err) {
-      callback(err);
-      return
-    }
-
-    that.count({neighborhood: restaurant.neighborhood}, function (err, num_nghbr) {
-      if (err) {
-        callback(err);
-        return
-      }
-
-      restaurant.numbers = {all: all, neighborhood: num_nghbr};
-
-      that.create(restaurant, function (err, doc) {
-        if (err) {
-          console.log('Error creating restaurant ' + restaurant);
-          callback(err)
-          return
-        }
-
-        console.log('Successfully crated restaurant ' + doc);
-        callback(null, doc);
-      });
-    });
-  });
-};
-
-var nRandom = function (n, max) {
-  max = max || 2;
-  return _.map(_.range(n || 1), function() { return Math.floor(Math.random() * (max||2)); });
-};
+RestaurantSchema.virtual('dollar.signs').get(function () {
+  return ['$', '$$', '$$$'][this.dollars - 1];
+});
 
 // options: {n: n random to return; neighborhood: 'neighborhood to search'}
 // callback(err, docs) with document cursor
@@ -61,8 +26,14 @@ RestaurantSchema.statics.findRandom = function (options, callback) {
   options = options || {};
 
   if (options.neighborhood) {
-    conditions['neighborhood'] = options.neighborhood;
+    conditions.neighborhood = options.neighborhood;
   }
+
+  if (options.dollars) {
+    conditions.dollars = options.dollars;
+  }
+
+  console.log('findRandom(' + JSON.stringify(options) + ')');
 
   this.count(conditions, function (err, count) {
     if (err) {
@@ -70,29 +41,28 @@ RestaurantSchema.statics.findRandom = function (options, callback) {
       return
     }
 
-    n = Math.min(options.n || 3, count);
+    n = Math.min(options.n || 1, count);
 
-    var nums = [];
-    while (nums.length < n) {
-      nums = _.uniq(nums.concat(nRandom(n, count)));
-    }
-    nums = nums.slice(0, n);
+    var buffer = [];
+    var bcount = 0;
+    var cb = function (err, docs) {
+      if (err) {
+        console.error('Error: ', err);
+      } else {
+        buffer = _.union(buffer, docs);
+      }
 
-    var query;
-    if (options.neighborhood) {
-      query = { 
-          neighborhood: options.neighborhood
-        , 'numbers.neighborhood': { '$in': nums } 
-      };
-    } else {
-      query = { 
-        'numbers.all': { '$in': nums } 
-      };
+      bcount += 1;
+      if (bcount >= n) {
+        callback(null, buffer);
+      }
     }
 
-    console.log('Finding random for ' + JSON.stringify(query));
-
-    that.find(query, null, { limit: n }).lean(options.lean || false).exec(callback);
+    _.each(_.range(n), function () {
+      var rn = Math.floor(Math.random() * count);
+      that.find(conditions, null, { limit: 1, skip: rn }).lean(options.lean || false).exec(cb);
+    });
+    
   });
 };
 
