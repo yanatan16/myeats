@@ -1,13 +1,11 @@
 var mongoose = require('mongoose')
   , _ = require('underscore')
   , Schema = mongoose.Schema
-  , ObjectId = mongoose.SchemaTypes.ObjectId
   , hbs = require('hbs');
 
 
 var RestaurantSchema = new Schema({
-    id    	       : ObjectId
-  , name           : { type: String, required: true }
+    name           : { type: String, required: true }
   , neighborhood   : { type: String, index: true, required: true }
   , dollars        : { type: Number, required: true, min: 1, max: 3 }
 });
@@ -70,4 +68,4 @@ RestaurantSchema.statics.findAllNeighborhoods = function (callback) {
   this.distinct('neighborhood', {}, callback);
 };
 
-module.exports = mongoose.model('Restaurant', RestaurantSchema);
+module.exports = Server.models.Restaurant = mongoose.model('Restaurant', RestaurantSchema);

@@ -3,7 +3,7 @@
  * GET home page.
  */
 var Restaurant = require('../models/Restaurant.js')
-  , fanin = require('../lib/fanin.js');
+  , fanin = require('../../lib/fanin.js');
 
 // Main page
 exports.index = function(req, res) {
@@ -53,10 +53,14 @@ exports.api.random = function(req, res) {
 };
 
 // Add a new restaurant
-exports.api.add = function(req, res) {
-  var name = req.query.name || req.body.name
-    , neighborhood = req.query.neighborhood || req.body.neighborhood
-    , dollars = req.query.dollars || req.body.dollars;
+exports.api.add = function (req, res) {
+  var sys = require('sys');
+  sys.puts(sys.inspect(req.body));
+
+  var params = req.body
+    , name = params.name
+    , neighborhood = params.neighborhood
+    , dollars = params.dollars;
 
   Restaurant.create({
       name: name
