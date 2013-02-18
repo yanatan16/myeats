@@ -27,37 +27,37 @@ var randomQueryArgs = function(neighborhood, dollars) {
   return args.join('&');
 };
 
-$('#randomize').click(function (e) {
-  e.preventDefault();
+// $('#randomize').click(function (e) {
+//   e.preventDefault();
 
-  var neighborhood = $('#random-neighborhood').val()
-    , dollars = $('#random-cost').val()
-    , qargs = randomQueryArgs(neighborhood, dollars);
+//   var neighborhood = $('#random-neighborhood').val()
+//     , dollars = $('#random-cost').val()
+//     , qargs = randomQueryArgs(neighborhood, dollars);
 
-  $.ajax('/api/random?' + qargs, {
-    success: function(data) {
-      if (data && data.eats && data.eats.length > 0) {
-        var eats = $('#eats').empty();
-        _.each(data.eats, function (eat) {
-          eats.append(
-            $('<div>').addClass('row-fluid').append(
-              $('<div>').addClass('span4').append(
-                $('<h2>').html(eat.name),
-                $('<p>').html('Neighborhood: ' + eat.neighborhood),
-                $('<p>').html('Cost: ' + ['$','$$','$$$',][eat.dollars-1])
-              )
-            )
-          );
-        });
-      } else {
-        notify('No eats returned!');
-      }
-    },
-    error: function (xhr, text) { error('Error contacting server!'); }
-  });
+//   $.ajax('/api/random?' + qargs, {
+//     success: function(data) {
+//       if (data && data.eats && data.eats.length > 0) {
+//         var eats = $('#eats').empty();
+//         _.each(data.eats, function (eat) {
+//           eats.append(
+//             $('<div>').addClass('row-fluid').append(
+//               $('<div>').addClass('span4').append(
+//                 $('<h2>').html(eat.name),
+//                 $('<p>').html('Neighborhood: ' + eat.neighborhood),
+//                 $('<p>').html('Cost: ' + ['$','$$','$$$',][eat.dollars-1])
+//               )
+//             )
+//           );
+//         });
+//       } else {
+//         notify('No eats returned!');
+//       }
+//     },
+//     error: function (xhr, text) { error('Error contacting server!'); }
+//   });
 
-  return false;
-});
+//   return false;
+// });
 
 $('#add-eat').click(function (e) {
   e.preventDefault();

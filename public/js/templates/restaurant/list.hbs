@@ -1,0 +1,24 @@
+{{#with randomizer}}
+<p><label>Neighborhood</label><select id="random-neighborhood">
+  <option value="" {{selected neighborhood ""}}></option>
+  {{#each neighborhoods}}
+    <option value="{{this}}" {{selected ../neighborhood this}}>{{this}}</option>
+  {{/each}}
+</select></p>
+<p><label>Cost</label><select id="random-cost" class="text ui-widget-content ui-corner-all">
+  <option value="" {{selected dollarsigns 0}}></option>
+  <option value="1" {{selected dollarsigns 1}}>$</option>
+  <option value="2" {{selected dollarsigns 2}}>$$</option>
+  <option value="3" {{selected dollarsigns 3}}>$$$</option>
+</select></p>
+<p><button id="randomize" class="btn" href="#">Randomize!</button></p>
+{{/with}}
+{{#each restaurants}}
+  <div class="row-fluid">
+    <div class="span4">
+      <h2>{{name}}</h2>
+      <p>Neighborhood: {{neighborhood}}</p>    
+      <p>Cost: {{dollarsigns}}</p>  
+    </div>
+  </div>
+{{/each}}

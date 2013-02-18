@@ -27,11 +27,9 @@ RestaurantSchema.statics.findRandom = function (options, callback) {
     conditions.neighborhood = options.neighborhood;
   }
 
-  if (options.dollars) {
+  if (options.dollars && options.dollars > 0 && options.dollars < 4) {
     conditions.dollars = options.dollars;
   }
-
-  console.log('findRandom(' + JSON.stringify(options) + ')');
 
   this.count(conditions, function (err, count) {
     if (err) {

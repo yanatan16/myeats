@@ -3,52 +3,21 @@
 {{/extend}}
 
 <div class="row-fluid">
-  <div class="span12">
+{{!   <div class="span12">
     <div class="hero-unit">
       <h2>Welcome to MyEats!</h2>
     </div>
+  </div> }}
+
+  <div class="span6" id="eats">
   </div>
 
-  <div class="span6">
-    <p><label>Neighborhood</label><select id="random-neighborhood">
-      <option value="" selected=selected></option>
-      {{#each neighborhoods}}
-        <option value="{{this}}">{{this}}</option>
-      {{/each}}
-    </select></p>
-    <p><label>Cost</label><select id="random-cost" class="text ui-widget-content ui-corner-all">
-      <option value="" selected=selected></option>
-      <option value="1">$</option>
-      <option value="2">$$</option>
-      <option value="3">$$$</option>
-    </select></p>
-    <p><a id="randomize" class="btn" href="#">Randomize!</a></p>
-    
-    <div id="eats">
-      {{#each eats}}
-        <div class="row-fluid">
-          <div class="span4">
-            <h2>{{name}}</h2>
-            <p>Neighborhood: {{neighborhood}}</p>    
-            <p>Cost: {{this.dollar.signs}}</p>  
-          </div><!--/span-->
-        </div><!--/row-->
-      {{/each}}
-    </div>
-  </div>
-
-  <div class="span3">
-    <p><label>Name</label><input type="text" id="new-name" /></p>
-    <p><label>Neighborhood</label><input type="text" id="new-neighborhood" /></p>
-    <p><label>Cost</label><select id="new-cost" class="text ui-widget-content ui-corner-all">
-      <option value="1" selected=selected>$</option>
-      <option value="2">$$</option>
-      <option value="3">$$$</option>
-    </select></p>
-    <p><a id='add-eat' class="btn" href="#">Add</a></p>
+  <div class="span3" id="new-eats">
   </div><!--/span-->
 </div><!--/row-->
 
-{{#extend "scripts"}}
-<script src="js/myeats.js"></script>
+{{#extend "requires"}}
+require(['app/app'], function(app) {
+  app.initialize({{{json bootstrap}}})
+});
 {{/extend}}

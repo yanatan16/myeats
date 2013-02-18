@@ -13,8 +13,12 @@ exports.index = function(req, res) {
         res.render('index', { 
           title: 'Restaurants'
           , error: errs.join(';')
-          , eats: restaurants
-          , neighborhoods: neighborhoods
+          , bootstrap: {
+                restaurants: restaurants
+              , randomizer: {
+                    neighborhoods: neighborhoods
+                }
+            }
         });
       }
     };
@@ -48,7 +52,11 @@ exports.api.random = function(req, res) {
     , neighborhood: req.query.neighborhood
     , dollars: req.query.dollars
   }, function(err, restaurants) {
-    res.json({eats: restaurants, error: err});
+    if (err) {
+      res.json(500, {error: err});
+    } else {
+      res.json(restaurants);
+    }
   });
 };
 
