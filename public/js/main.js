@@ -1,6 +1,3 @@
-var minified = false;
-var min = function(s) { return s + (minified ? '.min' : ''); };
-
 requirejs.config({
   //By default load any module IDs from js/
   baseUrl: 'js',
@@ -27,11 +24,10 @@ requirejs.config({
   
   // Minified
   paths: {
-    'jquery'       : min('lib/jquery_191'),
-    'backbone'     : min('lib/backbone'),
-    'bootstrap'    : min('lib/bootstrap'),
-    'underscore'   : min('lib/underscore'),
-    'handlebars': 'lib/handlebars.runtime',
-    'handlebars-templates'   : min('lib/handlebars.templates')
+    'jquery'       : 'lib/jquery_191',
+    'backbone'     : 'lib/backbone',
+    'bootstrap'    : 'lib/bootstrap',
+    'underscore'   : 'lib/underscore',
+    'handlebars'   : 'lib/handlebars.runtime'
   }
 });

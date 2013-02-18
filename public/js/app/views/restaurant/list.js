@@ -5,8 +5,8 @@ define('app/views/restaurant/list', [
   'handlebars',
   'app/collections/restaurant',
   'app/models/randomizer',
-  'handlebars-templates'
-], function($, _, Backbone, Handlebars, RestaurantList, Randomizer) {
+  'templates/restaurant/list'
+], function($, _, Backbone, Handlebars, RestaurantList, Randomizer, Template) {
 
   var RestaurantListView = Backbone.View.extend({    
     el: $('#eats'), // attaches `this.el` to an existing element.
@@ -26,7 +26,7 @@ define('app/views/restaurant/list', [
     },
 
     template: function () {
-      return Handlebars.templates['restaurant/list.hbs']({ 
+      return Template({ 
           randomizer: this.options.randomizer.hbs()
         , restaurants: this.options.restaurants.hbs()
       });

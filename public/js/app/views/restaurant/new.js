@@ -4,8 +4,8 @@ define('app/views/restaurant/new', [
   'backbone',
   'handlebars',
   'app/models/restaurant',
-  'handlebars-templates'
-], function($, _, Backbone, Handlebars, Restaurant) {
+  'templates/restaurant/new'
+], function($, _, Backbone, Handlebars, Restaurant, Template) {
 
   var NewRestaurantView = Backbone.View.extend({    
     el: $('#new-eats'), // attaches `this.el` to an existing element.
@@ -27,7 +27,7 @@ define('app/views/restaurant/new', [
     },
 
     template: function () {
-      return Handlebars.templates['restaurant/new.hbs'](this.options.restaurant.toJSON());
+      return Template(this.options.restaurant.toJSON());
     },
 
     render: function(){
