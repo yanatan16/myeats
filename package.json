@@ -8,11 +8,13 @@
     "mongoose-auth": ">= 0.0.12",
     "mongoose": ">=2.4.8",
     "everyauth": ">=0.2.28",
-    "underscore": "*"
+    "underscore": "*",
+    "connect-memcached": "*"
   },
   "devDependencies": {
     "grunt-lib-contrib": "~0.5.2",
     "grunt-contrib-handlebars": "0.5.4",
+    "grunt-contrib-clean": "0.4.0rc6",
     "grunt-contrib": "~0.3.0"
   }
 }

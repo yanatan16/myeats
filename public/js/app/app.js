@@ -12,7 +12,6 @@ define('app/app', [
   RestaurantList, Randomizer) {
 
   function initialize(bootstrap) {
-    console.log('bootstrap: ' + JSON.stringify(bootstrap));
     var restaurantListView = new RestaurantListView({
         randomizer: new Randomizer(bootstrap.randomizer)
       , restaurants: RestaurantList.absorb(bootstrap.restaurants)

@@ -53,6 +53,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib');
   grunt.loadNpmTasks('grunt-contrib-handlebars'); // Later version than grunt-contrib
+  grunt.loadNpmTasks('grunt-contrib-clean'); // Earlier version than grunt-contrib
 
 
   grunt.registerTask('build', ['clean', 'handlebars',  'requirejs'])
