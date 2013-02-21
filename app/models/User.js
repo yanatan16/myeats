@@ -9,7 +9,7 @@ var EmailSchema = new Schema({
 
 var UserSchema = new Schema({
     provider       : { type: String, required: true }
-  , id             : { type: String, required: true, index: true }
+  , id             : { type: String, required: true }
   , displayName    : { type: String }
   , name           : {
         familyName : String
@@ -18,5 +18,7 @@ var UserSchema = new Schema({
     }
   , emails         : [ EmailSchema ]
 });
+
+UserSchema.index({id: 1, provider: 1})
 
 module.exports = Server.models.User = mongoose.model('User', UserSchema);

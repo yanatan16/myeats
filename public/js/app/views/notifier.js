@@ -11,7 +11,7 @@ define('app/views/notifier', [
     initialize: function(options) {
       _.bindAll(this, 'template', 'render', 'push', 'error', 'warning', 'notify', 'success');
 
-      this.options.notifications = this.options.restaurant || options.restaurant || [];
+      this.options.notifications = this.options.notifications || options.notifications || [];
 
       this.render();
     },

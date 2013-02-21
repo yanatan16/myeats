@@ -1,16 +1,20 @@
 var mongoose = require('mongoose')
   , _ = require('underscore')
   , Schema = mongoose.Schema
-  , hbs = require('hbs');
+  , hbs = require('hbs')
+  , ObjectId = mongoose.Types.ObjectId
+  , sys = require('sys');
 
 
 var RestaurantSchema = new Schema({
     name           : { type: String, required: true }
-  , neighborhood   : { type: String, index: true, required: true }
+  , neighborhood   : { type: String, required: true }
   , dollars        : { type: Number, required: true, min: 1, max: 3 }
+  , user           : String
 });
 
-RestaurantSchema.index({dollars: 1, neighborhood: 1})
+RestaurantSchema.index({user: 1, dollars: 1, neighborhood: 1})
+RestaurantSchema.index({user: 1, neighborhood: 1})
 
 RestaurantSchema.virtual('dollar.signs').get(function () {
   return ['$', '$$', '$$$'][this.dollars - 1];
@@ -23,6 +27,12 @@ RestaurantSchema.statics.findRandom = function (options, callback) {
     , that = this;
   options = options || {};
 
+  if (!options.user) {
+    callback('Must log in to receive restaurant randomizations!', []);
+    return;
+  }
+  conditions.user = options.user
+
   if (options.neighborhood) {
     conditions.neighborhood = options.neighborhood;
   }
@@ -31,9 +41,14 @@ RestaurantSchema.statics.findRandom = function (options, callback) {
     conditions.dollars = options.dollars;
   }
 
+  console.log(sys.inspect(conditions));
+
   this.count(conditions, function (err, count) {
     if (err) {
       callback(err);
+      return
+    } else if (count === 0) {
+      callback("No Restaurants found! Add some?");
       return
     }
 
@@ -62,8 +77,8 @@ RestaurantSchema.statics.findRandom = function (options, callback) {
   });
 };
 
-RestaurantSchema.statics.findAllNeighborhoods = function (callback) {
-  this.distinct('neighborhood', {}, callback);
+RestaurantSchema.statics.findAllNeighborhoods = function (user, callback) {
+  this.distinct('neighborhood', {user: user || ''}, callback);
 };
 
 module.exports = Server.models.Restaurant = mongoose.model('Restaurant', RestaurantSchema);

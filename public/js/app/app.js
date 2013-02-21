@@ -13,7 +13,7 @@ define('app/app', [
   RestaurantList, Randomizer) {
 
   function initialize(bootstrap) {
-    var notifier = new NotificationView({ messages: bootstrap.messages });
+    var notifier = new NotificationView({ notifications: bootstrap.notifications });
 
     var restaurantListView = new RestaurantListView({
         randomizer: new Randomizer(bootstrap.randomizer)

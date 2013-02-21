@@ -3,28 +3,32 @@
  * GET home page.
  */
 var Restaurant = require('../models/Restaurant.js')
-  , fanin = require('../../lib/fanin.js');
+  , _ = require('underscore');
 
 // Main page
 exports.index = function(req, res) {
-  var errs = [], restaurants = null, neighborhoods = null, count = 0
+  var errs = []
+    , restaurants = null
+    , neighborhoods = null
+    , count = 0
+    , userid = req.user ? req.user.id : null
     , send = function () {
       if (count >= 2) {
         res.render('index', { 
             title: 'Restaurants'
           , user: req.user
-          , error: errs.join(';')
           , bootstrap: {
                 restaurants: restaurants
               , randomizer: {
                     neighborhoods: neighborhoods
                 }
+              , notifications: _.map(errs, function(err) { return {type:'error', msg: err}; })
             }
         });
       }
     };
 
-	Restaurant.findRandom({ lean: false }, function(err, rests) {
+	Restaurant.findRandom({ lean: false, user: userid }, function(err, rests) {
     restaurants = rests;
     if (err) {
       errs.push(err);
@@ -33,7 +37,7 @@ exports.index = function(req, res) {
     send();
   });
 
-  Restaurant.findAllNeighborhoods(function (err, neighs) {
+  Restaurant.findAllNeighborhoods(userid, function (err, neighs) {
     neighborhoods = neighs;
     if (err) {
       errs.push(err);
@@ -52,6 +56,7 @@ exports.api.random = function(req, res) {
       lean: true // get plain objects back
     , neighborhood: req.query.neighborhood
     , dollars: req.query.dollars
+    , user: req.user.id
   }, function(err, restaurants) {
     if (err) {
       res.json(500, {error: err});
@@ -64,7 +69,6 @@ exports.api.random = function(req, res) {
 // Add a new restaurant
 exports.api.add = function (req, res) {
   var sys = require('sys');
-  sys.puts(sys.inspect(req.body));
 
   var params = req.body
     , name = params.name
@@ -75,6 +79,7 @@ exports.api.add = function (req, res) {
       name: name
     , neighborhood: neighborhood
     , dollars: dollars
+    , user: req.user.id
   }, function (err, restaurant) {
     if (!err) {
       res.json({
