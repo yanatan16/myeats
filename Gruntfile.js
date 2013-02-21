@@ -28,7 +28,8 @@ module.exports = function(grunt) {
         },
         files: {
           "public/js/templates/restaurant/list.js": "app/views/client/restaurant/list.hbs",
-          "public/js/templates/restaurant/new.js": "app/views/client/restaurant/new.hbs"
+          "public/js/templates/restaurant/new.js": "app/views/client/restaurant/new.hbs",
+          "public/js/templates/notifier.js": "app/views/client/notifier.hbs"
         }
       }
     },

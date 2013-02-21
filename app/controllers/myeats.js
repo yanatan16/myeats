@@ -11,7 +11,8 @@ exports.index = function(req, res) {
     , send = function () {
       if (count >= 2) {
         res.render('index', { 
-          title: 'Restaurants'
+            title: 'Restaurants'
+          , user: req.user
           , error: errs.join(';')
           , bootstrap: {
                 restaurants: restaurants

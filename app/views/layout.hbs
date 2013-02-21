@@ -13,16 +13,8 @@
 
     <!-- Le styles -->
     <link href="{{minlib "/tbs/css/bootstrap.css"}}" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-    </style>
     <link href="{{minlib "/tbs/css/bootstrap-responsive.css"}}" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     {{{block "stylesheets"}}}
 
     <!--[if lt IE 9]>
@@ -44,9 +36,9 @@
         <div class="container-fluid">
           <a class="brand" href="#">MyEats</a>
           <div class="btn-group pull-right">
-    	      {{#if everyauth.loggedIn}}
-              <a class="btn" href="/logout">
-              <i class="icon-user"></i> {{everyauth.google.user.name}}
+    	      {{#if user}}
+              <a class="btn" href="/auth/logout">
+              <i class="icon-user"></i> {{user.displayName}}
             {{else}}
               <a class="btn" href="/auth/google">
 			        <i class="icon-cog"></i>Log in
@@ -58,9 +50,8 @@
     </div>
 
     <div id="wrapper" class="container-fluid">
-      {{#if error}}
-        <div class='alert alert-error'><h4>Error</h4> {{this}} <button href="#" class="close" data-dismiss="alert">&times;</button></div>
-      {{/if}}
+      <div id="notifier">
+      </div>
 
     	{{{body}}}
       <hr>

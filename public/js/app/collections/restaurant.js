@@ -27,7 +27,10 @@ define('app/collections/restaurant', [
     r.fetch({
       data: options,
       success: function (restaurants) {
-        callback(restaurants);
+        callback(null, restaurants);
+      },
+      error: function (err) {
+        callback("Could not randomize restaurant!");
       }
     });
   };

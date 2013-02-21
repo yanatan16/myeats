@@ -2,11 +2,10 @@ define('app/views/restaurant/list', [
   'jquery',
   'underscore',
   'backbone',
-  'handlebars',
   'app/collections/restaurant',
   'app/models/randomizer',
   'templates/restaurant/list'
-], function($, _, Backbone, Handlebars, RestaurantList, Randomizer, Template) {
+], function($, _, Backbone, RestaurantList, Randomizer, Template) {
 
   var RestaurantListView = Backbone.View.extend({    
     el: $('#eats'), // attaches `this.el` to an existing element.
@@ -40,10 +39,15 @@ define('app/views/restaurant/list', [
     randomize: function() {
       var that = this;
       RestaurantList.getRandom(this.options.randomizer.params(),
-        function (coll) {
-          that.options.restaurants = coll;
-          that.render(); 
-      });
+        function (err, coll) {
+          if (err) {
+            that.options.notifier.error(err);
+          } else {
+            that.options.restaurants = coll;
+            that.render();
+          }
+        } 
+      );
     },
 
     updateNeighborhood: function() {

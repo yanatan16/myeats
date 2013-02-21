@@ -1,0 +1,19 @@
+body {
+  padding: 50px;
+  padding-top: 60px;
+  padding-bottom: 40px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.sidebar-nav {
+  padding: 9px 0;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.alert > h4 {
+  text-transform: capitalize;
+  display: inline-block;
+}

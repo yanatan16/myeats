@@ -2,10 +2,9 @@ define('app/views/restaurant/new', [
   'jquery',
   'underscore',
   'backbone',
-  'handlebars',
   'app/models/restaurant',
   'templates/restaurant/new'
-], function($, _, Backbone, Handlebars, Restaurant, Template) {
+], function($, _, Backbone, Restaurant, Template) {
 
   var NewRestaurantView = Backbone.View.extend({    
     el: $('#new-eats'), // attaches `this.el` to an existing element.
@@ -46,8 +45,17 @@ define('app/views/restaurant/new', [
     },
 
     save: function () {
-      this.options.restaurant.save();
-      if (this.options.list){
+      var that = this;
+      this.options.restaurant.save(null, {
+        success: function (obj) {
+          that.options.notifier.success('Restaurant saved with id ' + obj.id);
+        },
+        error: function (err) {
+          that.options.notifier.error('Saving restaurant: ' + err);
+        }
+      });
+      
+      if (this.options.list) {
         this.options.list.trigger('new-neighborhood', this.options.restaurant.get('neighborhood'));
       }
     }
